@@ -1,7 +1,7 @@
 # list all keywords
 def list_keywords():
     import keyword
-    keyword.kwlist
+    return keyword.kwlist
 
 
 # show variable's unique identity
@@ -167,3 +167,53 @@ def parse_html(res=None, filename=''):
         print('Status code: {}'.format(res.status_code))
         soup = bs4.BeautifulSoup(res.text, "lxml")
         print(soup.text[:250])
+
+
+# download xkcd archive
+def xkcd():
+    import requests, os, bs4
+    url = 'http://xkcd.com'
+    os.makedirs('xkcd', exist_ok=True)
+    while not url.endswith('#'):
+        res = requests.get(url)
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text)
+        comicel = soup.select('#comic img')
+        if comicel == []:
+            print('Could not find image')
+        else:
+            comicurl = 'http:' + comicel[0].get('src')
+            print('Downloading image {}'.format(comicurl))
+            res = requests.get(comicurl)
+            res.raise_for_status()
+            imgfile = open(os.path.join('xkcd', os.path.basename(comicurl)), 'wb')
+            for chunk in res.iter_content(100000):
+                imgfile.write(chunk)
+            imgfile.close()
+        prevlink = soup.select('a[rel="prev"]')[0]
+        url = 'http://xkcd.com' + prevlink.get('href')
+    print('Done.')
+
+
+# Selenium test
+def selenium_ex(url, classname, text, email, passw):
+    from selenium import webdriver
+    browser = webdriver.Firefox()
+    browser.get(url)
+
+    try:
+        elem = browser.find_element_by_class_name(classname)
+        print('found {}'.format(elem.tag_name))
+    except:
+        print('didn not find element specified')
+    linkelem = browser.find_element_by_link_text(text)
+    linkelem.click()
+
+    emailelem = browser.find_element_by_id('login-username')
+    emailelem.send_keys(email)
+    passwordelem = browser.find_element_by_id('login-passwd')
+    passwordelem.send_keys(passw)
+    passwordelem.submit()
+
+
+# d

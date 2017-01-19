@@ -6,7 +6,7 @@ def main():
 
     general.parse_html(res=page)
 
-    general.parse_html(filename='test.html')
+    #
 
 if __name__ == '__main__':
     main()
