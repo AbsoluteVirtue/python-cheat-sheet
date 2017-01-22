@@ -79,6 +79,25 @@ def main():
         (\.[a-zA-Z]{2,4})   # dot
     )''', re.VERBOSE)
 
+    # parse xlsx
+    import openpyxl
+    from openpyxl.cell import get_column_letter, column_index_from_string
+    wb = openpyxl.load_workbook('test.xlsx')
+    print(wb.get_sheet_names())
+    sheet = wb.get_sheet_by_name('Sheet1')
+    print(sheet)
+    print(sheet['A1'])
+    print(sheet['A1'].value)
+    c = sheet['B1']
+    print(c.value)
+    print('Row {}, Column {} is {}'.format(str(c.row), c.column, c.value))
+    print('Cell {} is {}'.format(c.coordinate, c.value))
+    print(sheet['C1'].value)
+    print(get_column_letter(sheet.max_column))
+
+    general.parse_excel('test.xlsx')
+    general.list_excel_rows('test.xlsx')
+    general.list_excel_columns('test.xlsx')
 
 if __name__ == '__main__':
     main()

@@ -216,4 +216,28 @@ def selenium_ex(url, classname, text, email, passw):
     passwordelem.submit()
 
 
-# d
+# parse xlsx files
+def parse_excel(file):
+    import openpyxl
+    wb = openpyxl.load_workbook(file)
+    sheet = wb.get_sheet_by_name('Sheet1')
+    for i in range(1, sheet.max_row + 1):
+        print('{} - {}'.format(i, sheet.cell(row=i, column=2).value))
+
+
+def list_excel_rows(file):
+    import openpyxl
+    wb = openpyxl.load_workbook(file)
+    sheet = wb.get_sheet_by_name('Sheet1')
+    for rowObj in sheet['A1':'C3']:
+        for cellObj in rowObj:
+            print('{} - {}'.format(cellObj.coordinate, cellObj.value))
+        print('--- end of row ---')
+
+
+def list_excel_columns(file):
+    import openpyxl
+    wb = openpyxl.load_workbook(file)
+    sheet = wb.get_sheet_by_name('Sheet1')
+    for cellObj in sheet.columns[1]:
+        print(cellObj.value)
