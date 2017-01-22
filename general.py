@@ -265,3 +265,24 @@ def print_out_excel_data(file):
     resultFile.write('allData = ' + pprint.pformat(countyData))
     resultFile.close()
     print('Done.')
+
+
+# create xlsx files
+def update_excel_data(file):
+    import openpyxl
+    wb = openpyxl.load_workbook(file)
+    sheet = wb.get_sheet_by_name('Sheet')
+
+    PRICE_UPDATES = {'Garlic': 3.07,
+                     'Celery': 1.19,
+                     'Lemon': 1.27}
+
+    for rowNum in range(2, sheet.max_row):
+        produceName = sheet.cell(row=rowNum, column=1).value
+        if produceName in PRICE_UPDATES:
+            sheet.cell(row=rowNum, column=2).value = PRICE_UPDATES[produceName]
+
+    wb.save('prod.xlsx')
+
+
+# p
