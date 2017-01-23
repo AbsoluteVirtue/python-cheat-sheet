@@ -169,32 +169,6 @@ def parse_html(res=None, filename=''):
         print(soup.text[:250])
 
 
-# download xkcd archive
-def xkcd():
-    import requests, os, bs4
-    url = 'http://xkcd.com'
-    os.makedirs('xkcd', exist_ok=True)
-    while not url.endswith('#'):
-        res = requests.get(url)
-        res.raise_for_status()
-        soup = bs4.BeautifulSoup(res.text)
-        comicel = soup.select('#comic img')
-        if comicel == []:
-            print('Could not find image')
-        else:
-            comicurl = 'http:' + comicel[0].get('src')
-            print('Downloading image {}'.format(comicurl))
-            res = requests.get(comicurl)
-            res.raise_for_status()
-            imgfile = open(os.path.join('xkcd', os.path.basename(comicurl)), 'wb')
-            for chunk in res.iter_content(100000):
-                imgfile.write(chunk)
-            imgfile.close()
-        prevlink = soup.select('a[rel="prev"]')[0]
-        url = 'http://xkcd.com' + prevlink.get('href')
-    print('Done.')
-
-
 # Selenium test
 def selenium_ex(url, classname, text, email, passw):
     from selenium import webdriver
@@ -354,4 +328,78 @@ def pause_until(day):
         time.sleep(1)
 
 
-# p
+# multithreading
+def take_a_nap(seconds):
+    import time
+    time.sleep(seconds)
+    print('Wake up!')
+
+
+def two_threads(delay):
+    import threading
+    print('program started.')
+    threado = threading.Thread(target=take_a_nap, args=[delay])
+    threado.start()
+    print('program stopped.')
+
+
+# download xkcd archive
+def xkcd():
+    import requests, os, bs4
+    url = 'http://xkcd.com'
+    os.makedirs('xkcd', exist_ok=True)
+    while not url.endswith('#'):
+        res = requests.get(url)
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, "lxml")
+        comicel = soup.select('#comic img')
+        if comicel == []:
+            print('Could not find image')
+        else:
+            comicurl = 'http:' + comicel[0].get('src')
+            print('Downloading image {}'.format(comicurl))
+            res = requests.get(comicurl)
+            res.raise_for_status()
+            imgfile = open(os.path.join('xkcd', os.path.basename(comicurl)), 'wb')
+            for chunk in res.iter_content(100000):
+                imgfile.write(chunk)
+            imgfile.close()
+        prevlink = soup.select('a[rel="prev"]')[0]
+        url = 'http://xkcd.com' + prevlink.get('href')
+    print('Done.')
+
+
+def download_xkcd(start, end):
+    import requests, bs4, os
+    url = 'http://xkcd.com/'
+    for urlnum in range(start, end):
+        res = requests.get('{}{}'.format(url, urlnum))
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, "lxml")
+        comicelem = soup.select('#comic img')
+        if comicelem == []:
+            print('Couldn not find image.')
+        else:
+            comicurl = comicelem[0].get('src')
+            print('Downloading image {}'.format(comicurl))
+            res = requests.get(comicurl)
+            res.raise_for_status()
+            imgfile = open(os.path.join('xkcd', os.path.basename(comicurl)), 'wb')
+            for chunk in res.iter_content(100000):
+                imgfile.write(chunk)
+            imgfile.close()
+
+
+def xkcd_multi():
+    import os, threading
+    os.makedirs('xkcd', exist_ok=True)
+
+    downloadthreads = []
+    for i in range(0, 1400, 100):
+        dlthread = threading.Thread(target=download_xkcd, args=(i, i + 99))
+        downloadthreads.append(dlthread)
+        dlthread.start()
+
+    for dlthread in downloadthreads:
+        dlthread.join()
+    print('Done.')
