@@ -290,5 +290,30 @@ def parse_pdf(file):
     import PyPDF2
     pdffo = open(file, 'rb')
     pdfreader = PyPDF2.PdfFileReader(pdffo)
+    print(pdfreader.isEncrypted)
     pageobj = pdfreader.getPage(0)
     print(pageobj.extractText())
+
+
+# parse docx files
+def parse_word(file):
+    import docx
+    doc = docx.Document(file)
+    fullText = []
+    for para in doc.paragraphs:
+        fullText.append(para.text)
+    return '\n'.join(fullText)
+
+
+# create docx file
+def create_word(file):
+    import docx
+    doc = docx.Document()
+    doc.add_heading('Slim Shady', 0)
+    doc.add_paragraph('Hi, ')
+    paraobj = doc.add_paragraph('My name is ')
+    paraobj.add_run('Slim Shady.')
+    doc.save(file)
+
+
+# f
