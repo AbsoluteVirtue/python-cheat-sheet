@@ -3,9 +3,9 @@ test.py
 web_test.py
 
 # file types
-.xlsx
-.html
-.pdf
+*.xlsx
+*.html
+*.pdf
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
