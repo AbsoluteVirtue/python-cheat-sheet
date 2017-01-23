@@ -347,4 +347,11 @@ def dl_weather_json(location):
     print(w[2]['weather'][0]['main'], '-', w[2]['weather'][0]['description'])
 
 
-# w
+# datetime and time examples (pass DT object, ex.: datetime.datetime(2017, 10, 31, 0, 0, 0))
+def pause_until(day):
+    import datetime, time
+    while datetime.datetime.now() < day:
+        time.sleep(1)
+
+
+# p
