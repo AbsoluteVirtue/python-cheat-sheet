@@ -285,4 +285,10 @@ def update_excel_data(file):
     wb.save('prod.xlsx')
 
 
-# p
+# parse pdf files
+def parse_pdf(file):
+    import PyPDF2
+    pdffo = open(file, 'rb')
+    pdfreader = PyPDF2.PdfFileReader(pdffo)
+    pageobj = pdfreader.getPage(0)
+    print(pageobj.extractText())
