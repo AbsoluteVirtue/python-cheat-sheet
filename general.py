@@ -316,4 +316,35 @@ def create_word(file):
     doc.save(file)
 
 
-# f
+# parsing csv files
+def parse_csv(file):
+    import csv
+    fileobj = open(file)
+    reader = csv.reader(fileobj)
+    for row in reader:
+        print('Row # {}: {}'.format(str(reader.line_num), str(row)))
+
+
+# create csv file
+def create_csv(file):
+    import csv
+    output = open(file, 'w', newline='')  # newline is needed for Windows only (removes the extra empty rows)
+    writer = csv.writer(output)
+    writer.writerow(['spam', 'eggs', 'bacon', 'ham'])
+    output.close()
+
+
+# parse json
+def dl_weather_json(location):
+    import json, requests, sys
+    url = 'http://api.openweathermap.org/data/2.5/forecast/daily?q={}&cnt=3'.format(location)
+    response = requests.get(url)
+    response.raise_for_status()
+    pval = json.loads(response.text)
+    w = pval['list']
+    print(w[0]['weather'][0]['main'], '-', w[0]['weather'][0]['description'])
+    print(w[1]['weather'][0]['main'], '-', w[1]['weather'][0]['description'])
+    print(w[2]['weather'][0]['main'], '-', w[2]['weather'][0]['description'])
+
+
+# w
