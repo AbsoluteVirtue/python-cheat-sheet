@@ -179,7 +179,7 @@ def selenium_ex(url, classname, text, email, passw):
         elem = browser.find_element_by_class_name(classname)
         print('found {}'.format(elem.tag_name))
     except:
-        print('didn not find element specified')
+        print('did not find element specified')
     linkelem = browser.find_element_by_link_text(text)
     linkelem.click()
 
@@ -457,3 +457,27 @@ def send_text(receiver, message):
     client = TwilioRestClient(accountSID, authToken)
     twilioNum = ''
     message = client.messages.create(body=message, from_=twilioNum, to=receiver)
+
+
+def auto_win_manipulation_test():
+    import pyautogui
+    pyautogui.PAUSE = 1
+    pyautogui.FAILSAFE = True
+    for i in range(10):
+        pyautogui.moveTo(100, 100, duration=0.25)
+        pyautogui.moveTo(200, 100, duration=0.25)
+        pyautogui.moveTo(200, 200, duration=0.25)
+        pyautogui.moveTo(100, 200, duration=0.25)
+
+
+def where_is_my_mouse():
+    import pyautogui
+    print('You can press Ctrl-C at any time to quit.')
+    try:
+        while True:
+            x, y = pyautogui.position()
+            positionStr = 'X: {} Y: {}'.format(str(x).rjust(4), str(y).rjust(4))
+            print(positionStr, end='')
+            print('\b' * len(positionStr), end='', flush=True)
+    except KeyboardInterrupt:
+        print('\nQuit.')
