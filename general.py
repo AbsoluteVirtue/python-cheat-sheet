@@ -423,6 +423,37 @@ def send_email(sender, receiver, message):
     smtpObj.starttls()
     password = '{}'.format(input('Enter password for {}'.format(sender)))
     smtpObj.login(sender, password)
-    smtpObj.sendmail(sender, receiver,
+    status = smtpObj.sendmail(sender, receiver,
                      'Subject:{}\n{}'.format(message[:13], message))
+    if status != {}:
+        print('There was a problem sending message(s): {}'.format(status))
     smtpObj.quit()
+
+
+def read_email(receiver):
+    import imapclient, imaplib, pprint
+    imaplib._MAXLINE = 1000000
+
+    imapObj = imapclient.IMAPClient('imap.gmail.com', ssl=True)
+    password = '{}'.format(input('Enter password for {}'.format(receiver)))
+    imapObj.login(receiver, password)
+    pprint.pprint(imapObj.list_folders())
+    imapObj.select_folder('INBOX', readonly=True)
+    uids = imapObj.search(['ALL'])  # imapObj.gmail_search('meaning of life')
+    rawMessages = imapObj.fetch(uids, ['BODY[]'])
+    pprint.pprint(rawMessages)
+    # import pyzmail
+    # message = pyzmail.PyzMessage.factory(rawMessages[1]['BODY[]'])
+    # if (message.text_part != None):
+    #     message.text_part.get_payload().decode(message.text_part.charset)
+    imapObj.logout()
+
+
+# Twilio example
+def send_text(receiver, message):
+    from twilio.rest import TwilioRestClient
+    accountSID = ''
+    authToken = ''
+    client = TwilioRestClient(accountSID, authToken)
+    twilioNum = ''
+    message = client.messages.create(body=message, from_=twilioNum, to=receiver)
