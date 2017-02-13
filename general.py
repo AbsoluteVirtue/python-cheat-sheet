@@ -414,3 +414,15 @@ def simple_alarm():
         timeLeft -= 1
 
     subprocess.Popen(['start', 'alarm.wav'], shell=True)
+
+
+def send_email(sender, receiver, message):
+    import smtplib
+    smtpObj = smtplib.SMTP('smtp.gmail.com', 587)  # smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    smtpObj.ehlo()
+    smtpObj.starttls()
+    password = '{}'.format(input('Enter password for {}'.format(sender)))
+    smtpObj.login(sender, password)
+    smtpObj.sendmail(sender, receiver,
+                     'Subject:{}\n{}'.format(message[:13], message))
+    smtpObj.quit()
