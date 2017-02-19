@@ -477,7 +477,31 @@ def where_is_my_mouse():
         while True:
             x, y = pyautogui.position()
             positionStr = 'X: {} Y: {}'.format(str(x).rjust(4), str(y).rjust(4))
+            pixelColor = pyautogui.screenshot().getpixel((x, y))
+            positionStr += ' RGB:({}, {}, {})'.format(str(pixelColor[0]).rjust(3),
+                                                      str(pixelColor[1]).rjust(3),
+                                                      str(pixelColor[2]).rjust(3))
             print(positionStr, end='')
             print('\b' * len(positionStr), end='', flush=True)
     except KeyboardInterrupt:
         print('\nQuit.')
+
+
+def draw_spiral_mouse():
+    import pyautogui, time
+    time.sleep(5)
+    pyautogui.click()
+    distance = 200
+    while distance > 0:
+        pyautogui.dragRel(distance, 0, duration=0.2)
+        distance -= 5
+        pyautogui.dragRel(0, distance, duration=0.2)
+        pyautogui.dragRel(-distance, 0, duration=0.2)
+        distance -= 5
+        pyautogui.dragRel(0, -distance, duration=0.2)
+
+
+def recognize_image(file):
+    import pyautogui
+    pos = pyautogui.locateOnScreen(file)
+    print(str(pos))
