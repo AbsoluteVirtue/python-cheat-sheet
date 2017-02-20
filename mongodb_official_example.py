@@ -45,7 +45,6 @@ class MessagesHandler(tornado.web.RequestHandler):
             self.write('</ul>')
             self.finish()
 
-# db = motor.MotorConnection().open_sync().test
 db = motor.motor_tornado.MotorClient().news
 
 application = tornado.web.Application([
