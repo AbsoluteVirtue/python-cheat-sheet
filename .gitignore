@@ -1,3 +1,6 @@
+.vscode/
+.idea/*
+
 # single files
 test.py
 web_test.py
