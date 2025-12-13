@@ -1,4 +1,5 @@
 # Reading list
+## J. Clark Scott, But How Do It Know?
 ## Al Sweigart, Invent Your Own Computer Games with Python
 https://inventwithpython.com/invent4thed/
 1. operators, numbers, values, expressions, syntax errors, variables
@@ -16,6 +17,7 @@ https://inventwithpython.com/invent4thed/
 13. bool
 14. round
 15. constructor, events
+
 16-22. pygame
 ## Al Sweigart, Automate the Boring Stuff with Python
 https://inventwithpython.com/automate3workbook/
