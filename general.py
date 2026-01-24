@@ -20,15 +20,6 @@ def list_standard_types():
     dir(types)
 
 
-# calculate factorial of N
-def factorial(n):
-    assert n > 0
-    if n != 0:
-        return n * factorial(n-1)
-    else:
-        return 1
-
-
 # list all attributes in a module
 def list_all_module():
     import copy
