@@ -7,7 +7,7 @@ web_test.py
 
 # file types
 *.xlsx
-*.html
+# *.html
 *.pdf
 
 # Byte-compiled / optimized / DLL files

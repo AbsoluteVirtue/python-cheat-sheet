@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="{{ static_url('normalize.css') }}" type="text/css">
+  <link rel="stylesheet" href="{{ static_url('style.css') }}" type="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+{% autoescape None %}
+<body>
+  <header class="main-header">
+    <div class="wrap">
+      <h1 class="main-header__title">
+        {{ title }}
+      </h1>
+      <form class="search-form" action="/" method="post">
+        <input class="search-form__input" type="search" name="search" placeholder="Enter search query">
+        <input class="button button--search" type="submit" value="Search">
+        {% raw xsrf_form_html() %}
+      </form>
+    </div>
+  </header>
+  <div class="wrap">
+    <article class="post clearfix">
+      <img class="post__header-image" src="{{ item['image'] }}" alt="img">
+      <h1 class="post__title">
+        {{ item['title'] }}
+      </h1>
+      <div class="row">
+        <div class="posts__author">{{ item['author'] }}</div>
+        <div class="posts__date">{{ item['date'] }}</div>
+      </div>
+      <p class="post__text">{{ item['text'] }}</p>
+
+      <a class="button button--more" href="/">Back</a>
+    </article>
+  </div>
+</body>
+
+</html>

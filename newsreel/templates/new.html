@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="{{ static_url('normalize.css') }}" type="text/css">
+  <link rel="stylesheet" href="{{ static_url('style.css') }}" type="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+{% autoescape None %}
+<body>
+  <header class="main-header">
+    <div class="wrap">
+      <h1 class="main-header__title">
+        {{ title }}
+      </h1>
+      <form class="search-form" action="/" method="post">
+        <input class="search-form__input" type="search" name="search" placeholder="Enter search query">
+        <input class="button button--search" type="submit" value="Search">
+        {% raw xsrf_form_html() %}
+      </form>
+    </div>
+  </header>
+  <div class="wrap new-post">
+    <form class="post-add" action="/new" method="post">
+
+      <fieldset>
+        <span class="error">{{ error }}</span>
+      </fieldset>
+
+      <fieldset class="clearfix">
+        <legend class="post-add__header">Add new article</legend>
+        <div class="row">
+          <div class="post-add__field">
+            <label for="author-name" class="post-add__label">Author</label>
+            <input class="post-add__input" id="author-name" name="author" type="text" value="Anonymous">
+          </div>
+          <div class="post-add__field">
+            <label for="image-link" class="post-add__label">Image source</label>
+            <input class="post-add__input" id="image-link" name="image" type="url" value="http://ic.pics.livejournal.com/masio/8221809/287143/287143_original.gif">
+          </div>
+          <div class="post-add__field post-add__field--title">
+            <label for="post-title" class="post-add__label">Title</label>
+            <input class="post-add__input" id="post-title" name="title" type="text">
+          </div>
+        </div>
+        <label class="post-add__label" for="post-text">Body</label>
+        <textarea class="post-add__textarea" name="post-text" id="post-text" cols="30" rows="10"></textarea>
+        <input class="button post-add__button" type="submit" value="Post">
+        <a class="button post-add__button-cancel" href="/">Cancel</a>
+      </fieldset>
+      {% raw xsrf_form_html() %}
+    </form>
+  </div>
+</body>
+
+</html>
