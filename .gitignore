@@ -4,11 +4,11 @@
 # single files
 test.py
 web_test.py
-
+_*.md
 # file types
 *.xlsx
-# *.html
 *.pdf
+# *.html
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
